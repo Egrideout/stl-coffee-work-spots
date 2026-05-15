@@ -1,0 +1,1007 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>St. Louis Coffee Work Spots</title>
+    <style>
+      :root {
+        color-scheme: light;
+        --ink: #1d252c;
+        --muted: #5b6570;
+        --line: #d8ddd8;
+        --panel: #ffffff;
+        --paper: #f5f4ef;
+        --moss: #315f4d;
+        --moss-dark: #24483b;
+        --amber: #b7652b;
+        --blue: #315f79;
+        --shadow: 0 16px 40px rgba(29, 37, 44, 0.08);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        background: var(--paper);
+        color: var(--ink);
+        font-family:
+          Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+          "Segoe UI", sans-serif;
+      }
+
+      a {
+        color: inherit;
+      }
+
+      button,
+      input {
+        font: inherit;
+      }
+
+      .app {
+        min-height: 100vh;
+      }
+
+      .topbar {
+        position: sticky;
+        top: 0;
+        z-index: 5;
+        border-bottom: 1px solid rgba(216, 221, 216, 0.85);
+        background: rgba(245, 244, 239, 0.92);
+        backdrop-filter: blur(12px);
+      }
+
+      .topbar-inner {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        max-width: 1180px;
+        margin: 0 auto;
+        padding: 14px 20px;
+      }
+
+      .brand {
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+      }
+
+      .brand strong {
+        font-size: 17px;
+        letter-spacing: 0;
+      }
+
+      .brand span {
+        color: var(--muted);
+        font-size: 13px;
+      }
+
+      .xlsx-link {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 38px;
+        padding: 0 14px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: var(--panel);
+        color: var(--ink);
+        font-size: 14px;
+        text-decoration: none;
+        box-shadow: 0 4px 18px rgba(29, 37, 44, 0.05);
+      }
+
+      .hero {
+        max-width: 1180px;
+        margin: 0 auto;
+        padding: 28px 20px 20px;
+      }
+
+      .hero-grid {
+        display: grid;
+        grid-template-columns: minmax(0, 1.05fr) minmax(300px, 0.95fr);
+        gap: 22px;
+        align-items: stretch;
+      }
+
+      .intro {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        min-height: 300px;
+      }
+
+      h1 {
+        max-width: 720px;
+        margin: 0;
+        font-size: clamp(36px, 7vw, 76px);
+        line-height: 0.95;
+        letter-spacing: 0;
+      }
+
+      .lead {
+        max-width: 640px;
+        margin: 22px 0 0;
+        color: var(--muted);
+        font-size: 18px;
+        line-height: 1.5;
+      }
+
+      .hero-photo {
+        min-height: 300px;
+        border-radius: 8px;
+        background:
+          linear-gradient(180deg, rgba(29, 37, 44, 0.05), rgba(29, 37, 44, 0.18)),
+          url("https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=1200&q=80");
+        background-position: center;
+        background-size: cover;
+        box-shadow: var(--shadow);
+      }
+
+      .quick-picks {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 12px;
+        margin-top: 22px;
+      }
+
+      .pick {
+        min-height: 120px;
+        padding: 16px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: var(--panel);
+        box-shadow: 0 10px 24px rgba(29, 37, 44, 0.05);
+      }
+
+      .pick small {
+        display: block;
+        color: var(--amber);
+        font-size: 12px;
+        font-weight: 800;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      .pick strong {
+        display: block;
+        margin-top: 8px;
+        font-size: 18px;
+      }
+
+      .pick span {
+        display: block;
+        margin-top: 6px;
+        color: var(--muted);
+        font-size: 14px;
+        line-height: 1.35;
+      }
+
+      .controls-wrap {
+        border-top: 1px solid var(--line);
+        border-bottom: 1px solid var(--line);
+        background: #ffffff;
+      }
+
+      .controls {
+        display: grid;
+        grid-template-columns: minmax(220px, 1fr) auto;
+        gap: 16px;
+        align-items: center;
+        max-width: 1180px;
+        margin: 0 auto;
+        padding: 16px 20px;
+      }
+
+      .search {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        min-height: 44px;
+        padding: 0 12px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: #f9faf8;
+      }
+
+      .search svg {
+        flex: 0 0 auto;
+        color: var(--moss);
+      }
+
+      .search input {
+        width: 100%;
+        border: 0;
+        outline: 0;
+        background: transparent;
+        color: var(--ink);
+      }
+
+      .segments {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        justify-content: flex-end;
+      }
+
+      .segment {
+        min-height: 38px;
+        padding: 0 12px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: #ffffff;
+        color: var(--ink);
+        cursor: pointer;
+      }
+
+      .segment[aria-pressed="true"] {
+        border-color: var(--moss);
+        background: var(--moss);
+        color: #ffffff;
+      }
+
+      .location-tools {
+        display: grid;
+        grid-template-columns: auto minmax(220px, 1fr) auto;
+        gap: 10px;
+        align-items: center;
+        max-width: 1180px;
+        margin: 0 auto;
+        padding: 0 20px 16px;
+      }
+
+      .location-button,
+      .address-button {
+        min-height: 40px;
+        padding: 0 13px;
+        border: 1px solid var(--moss);
+        border-radius: 8px;
+        background: var(--moss);
+        color: #ffffff;
+        cursor: pointer;
+        font-weight: 800;
+      }
+
+      .address-field {
+        min-height: 40px;
+        padding: 0 12px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: #f9faf8;
+        outline: 0;
+      }
+
+      .location-status {
+        grid-column: 1 / -1;
+        color: var(--muted);
+        font-size: 13px;
+        line-height: 1.4;
+      }
+
+      main {
+        max-width: 1180px;
+        margin: 0 auto;
+        padding: 22px 20px 44px;
+      }
+
+      .result-meta {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        margin-bottom: 14px;
+        color: var(--muted);
+        font-size: 14px;
+      }
+
+      .map-section {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) 300px;
+        gap: 14px;
+        margin-bottom: 18px;
+      }
+
+      .map-shell,
+      .map-info {
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: var(--panel);
+        box-shadow: 0 10px 24px rgba(29, 37, 44, 0.05);
+      }
+
+      .map-shell {
+        overflow: hidden;
+        height: 390px;
+      }
+
+      #map {
+        position: relative;
+        width: 100%;
+        height: 390px;
+        overflow: hidden;
+        background:
+          linear-gradient(90deg, rgba(49, 95, 77, 0.08) 1px, transparent 1px),
+          linear-gradient(180deg, rgba(49, 95, 77, 0.08) 1px, transparent 1px),
+          radial-gradient(circle at 42% 46%, rgba(49, 95, 77, 0.14), transparent 28%),
+          radial-gradient(circle at 76% 22%, rgba(49, 95, 121, 0.12), transparent 26%),
+          #eef1eb;
+        background-size:
+          52px 52px,
+          52px 52px,
+          auto,
+          auto,
+          auto;
+      }
+
+      #map::before,
+      #map::after {
+        position: absolute;
+        content: "";
+        pointer-events: none;
+      }
+
+      #map::before {
+        inset: 48px -20px auto -28px;
+        height: 74px;
+        border-top: 7px solid rgba(183, 101, 43, 0.26);
+        border-bottom: 4px solid rgba(49, 95, 121, 0.18);
+        transform: rotate(-15deg);
+      }
+
+      #map::after {
+        inset: auto 80px -46px auto;
+        width: 130px;
+        height: 470px;
+        border-left: 18px solid rgba(49, 95, 121, 0.14);
+        transform: rotate(10deg);
+      }
+
+      .map-info {
+        display: flex;
+        flex-direction: column;
+        padding: 16px;
+      }
+
+      .map-info small {
+        color: var(--amber);
+        font-size: 12px;
+        font-weight: 800;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      .map-info h2 {
+        margin: 8px 0 0;
+        font-size: 24px;
+        line-height: 1.12;
+      }
+
+      .map-info p {
+        margin: 9px 0 0;
+        color: var(--muted);
+        font-size: 14px;
+        line-height: 1.45;
+      }
+
+      .map-info .map-link {
+        margin-top: auto;
+      }
+
+      .pin {
+        display: grid;
+        place-items: center;
+        width: 30px;
+        height: 30px;
+        border: 2px solid #ffffff;
+        border-radius: 999px;
+        background: var(--moss);
+        color: #ffffff;
+        font-size: 12px;
+        font-weight: 800;
+        box-shadow: 0 7px 18px rgba(29, 37, 44, 0.3);
+      }
+
+      .pin.specialty {
+        background: var(--amber);
+      }
+
+      .user-pin {
+        display: grid;
+        place-items: center;
+        width: 34px;
+        height: 34px;
+        border: 3px solid #ffffff;
+        border-radius: 999px;
+        background: var(--blue);
+        color: #ffffff;
+        font-size: 11px;
+        font-weight: 900;
+        box-shadow: 0 7px 18px rgba(29, 37, 44, 0.36);
+      }
+
+      .map-marker {
+        position: absolute;
+        z-index: 2;
+        border: 0;
+        padding: 0;
+        transform: translate(-50%, -50%);
+        cursor: pointer;
+      }
+
+      .map-marker:focus-visible {
+        outline: 3px solid rgba(49, 95, 121, 0.35);
+        outline-offset: 3px;
+      }
+
+      .map-label {
+        position: absolute;
+        z-index: 1;
+        padding: 5px 8px;
+        border: 1px solid rgba(49, 95, 77, 0.16);
+        border-radius: 8px;
+        background: rgba(255, 255, 255, 0.72);
+        color: var(--muted);
+        font-size: 12px;
+        font-weight: 800;
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 14px;
+      }
+
+      .card {
+        display: flex;
+        flex-direction: column;
+        min-height: 306px;
+        padding: 16px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: var(--panel);
+        box-shadow: 0 10px 24px rgba(29, 37, 44, 0.05);
+      }
+
+      .card-top {
+        display: flex;
+        justify-content: space-between;
+        gap: 12px;
+      }
+
+      .rank {
+        color: var(--amber);
+        font-size: 13px;
+        font-weight: 800;
+      }
+
+      .score {
+        min-width: 58px;
+        padding: 5px 8px;
+        border-radius: 8px;
+        background: #edf4ef;
+        color: var(--moss-dark);
+        font-size: 13px;
+        font-weight: 800;
+        text-align: center;
+      }
+
+      .shop-name {
+        margin: 10px 0 0;
+        font-size: 22px;
+        line-height: 1.1;
+      }
+
+      .area {
+        margin: 7px 0 0;
+        color: var(--muted);
+        font-size: 14px;
+      }
+
+      .metrics {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 8px;
+        margin: 16px 0;
+      }
+
+      .metric {
+        padding: 10px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: #fafbf8;
+      }
+
+      .metric span {
+        display: block;
+        color: var(--muted);
+        font-size: 11px;
+        font-weight: 800;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+      }
+
+      .metric strong {
+        display: block;
+        margin-top: 3px;
+        font-size: 17px;
+      }
+
+      .note {
+        margin: 0;
+        color: var(--ink);
+        font-size: 14px;
+        line-height: 1.45;
+      }
+
+      .caveat {
+        margin: 10px 0 0;
+        color: var(--muted);
+        font-size: 13px;
+        line-height: 1.4;
+      }
+
+      .card-actions {
+        display: flex;
+        gap: 8px;
+        margin-top: auto;
+        padding-top: 16px;
+      }
+
+      .map-link,
+      .copy-button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 7px;
+        min-height: 38px;
+        padding: 0 12px;
+        border-radius: 8px;
+        font-size: 14px;
+        font-weight: 700;
+        text-decoration: none;
+      }
+
+      .map-link {
+        flex: 1;
+        background: var(--moss);
+        color: #ffffff;
+      }
+
+      .copy-button {
+        border: 1px solid var(--line);
+        background: #ffffff;
+        color: var(--ink);
+        cursor: pointer;
+      }
+
+      .empty {
+        display: none;
+        padding: 24px;
+        border: 1px dashed var(--line);
+        border-radius: 8px;
+        background: #ffffff;
+        color: var(--muted);
+      }
+
+      footer {
+        max-width: 1180px;
+        margin: 0 auto;
+        padding: 0 20px 30px;
+        color: var(--muted);
+        font-size: 12px;
+        line-height: 1.5;
+      }
+
+      @media (max-width: 920px) {
+        .hero-grid,
+        .controls,
+        .map-section {
+          grid-template-columns: 1fr;
+        }
+
+        .segments {
+          justify-content: flex-start;
+        }
+
+        .quick-picks,
+        .grid {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+      }
+
+      @media (max-width: 620px) {
+        .topbar-inner {
+          align-items: flex-start;
+          flex-direction: column;
+        }
+
+        .hero {
+          padding-top: 20px;
+        }
+
+        .intro {
+          min-height: 0;
+        }
+
+        .hero-photo {
+          min-height: 190px;
+        }
+
+        .map-shell,
+        #map {
+          height: 320px;
+        }
+
+        .quick-picks,
+        .grid {
+          grid-template-columns: 1fr;
+        }
+
+        .location-tools {
+          grid-template-columns: 1fr;
+        }
+
+        .metrics {
+          grid-template-columns: repeat(2, 1fr);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="app">
+      <header class="topbar">
+        <div class="topbar-inner">
+          <div class="brand">
+            <strong>St. Louis Coffee Work Spots</strong>
+            <span>Ranked for ratings, review confidence, work fit, and coffee quality</span>
+          </div>
+          <a class="xlsx-link" href="outputs/stl-coffee-shops/best-st-louis-coffee-shops-for-work.xlsx">
+            Open spreadsheet
+          </a>
+        </div>
+      </header>
+
+      <section class="hero">
+        <div class="hero-grid">
+          <div class="intro">
+            <h1>Pick a coffee shop for today’s work block.</h1>
+            <p class="lead">
+              Shortlist of high-rated St. Louis city-area cafes with quick notes on focus work, coffee quality,
+              review strength, and tradeoffs.
+            </p>
+          </div>
+          <div class="hero-photo" role="img" aria-label="Coffee and laptop on a cafe table"></div>
+        </div>
+
+        <div class="quick-picks" aria-label="Quick recommendations">
+          <div class="pick">
+            <small>Best overall</small>
+            <strong>Sump Coffee</strong>
+            <span>Top score with serious roaster credibility.</span>
+          </div>
+          <div class="pick">
+            <small>Highest rating</small>
+            <strong>Coffeestamp</strong>
+            <span>4.9 rating and a coffee-forward Fox Park setup.</span>
+          </div>
+          <div class="pick">
+            <small>Most proven</small>
+            <strong>The Mud House</strong>
+            <span>Large review base and strong cafe/food setup.</span>
+          </div>
+          <div class="pick">
+            <small>Central fallback</small>
+            <strong>Kaldi’s Euclid</strong>
+            <span>Directly confirmed free Wi-Fi in the CWE.</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="controls-wrap" aria-label="Coffee shop filters">
+        <div class="controls">
+          <label class="search" for="search">
+            <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none">
+              <path d="m21 21-4.3-4.3m1.3-5.2a6.5 6.5 0 1 1-13 0 6.5 6.5 0 0 1 13 0Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+            </svg>
+            <input id="search" type="search" placeholder="Search by shop or neighborhood" />
+          </label>
+          <div class="segments" role="group" aria-label="Filter list">
+            <button class="segment" type="button" data-filter="all" aria-pressed="true">All</button>
+            <button class="segment" type="button" data-filter="nearby" aria-pressed="false">Best near me</button>
+            <button class="segment" type="button" data-filter="specialty" aria-pressed="false">Specialty coffee</button>
+            <button class="segment" type="button" data-filter="quiet" aria-pressed="false">Focus-friendly</button>
+            <button class="segment" type="button" data-filter="central" aria-pressed="false">CWE / Downtown</button>
+          </div>
+        </div>
+        <div class="location-tools" aria-label="Location tools">
+          <button class="location-button" type="button" id="useLocation">Use my location</button>
+          <input class="address-field" id="addressInput" type="search" placeholder="Or enter an address / neighborhood in St. Louis" />
+          <button class="address-button" type="button" id="useAddress">Find nearby</button>
+          <div class="location-status" id="locationStatus">
+            Location is optional. On phones, GPS usually requires HTTPS; the address box works as a fallback.
+          </div>
+        </div>
+      </section>
+
+      <main>
+        <div class="result-meta">
+          <span id="resultCount">Showing 16 spots</span>
+          <span>Updated from current public sources on May 15, 2026</span>
+        </div>
+        <section class="map-section" aria-label="Map of coffee shops">
+          <div class="map-shell">
+            <div id="map" role="application" aria-label="Interactive St. Louis coffee shop map"></div>
+          </div>
+          <aside class="map-info" id="mapInfo">
+            <small>Map view</small>
+            <h2>Select a marker</h2>
+            <p>Markers are numbered to match the ranked cards. Orange pins are specialty-coffee callouts.</p>
+            <p>Use the filters above to narrow both the cards and the map.</p>
+          </aside>
+        </section>
+        <section class="grid" id="cards" aria-live="polite"></section>
+        <div class="empty" id="empty">No matching shops. Clear the search or choose another filter.</div>
+      </main>
+
+      <footer>
+        Ratings and review counts come from the researched spreadsheet sources. Hours, outlet access, table availability,
+        and Wi-Fi quality can change; check the map listing before heading out.
+      </footer>
+    </div>
+
+    <script>
+      const shops = [
+        { rank: 1, score: 93.8, name: "Sump Coffee", area: "South City", address: "3700 South Jefferson Avenue, St. Louis", rating: 4.7, reviews: 731, specialty: true, focus: true, central: false, lat: 38.587767, lng: -90.226478, best: "Best serious-coffee pick; strong roaster reputation.", caveat: "Can be busy; best when coffee quality matters more than all-day desk comfort.", map: "https://www.google.com/maps/search/?api=1&query=Sump%20Coffee%203700%20South%20Jefferson%20Avenue%20St.%20Louis" },
+        { rank: 2, score: 93.2, name: "Coffeestamp", area: "Fox Park", address: "2511 South Jefferson Avenue, St. Louis", rating: 4.9, reviews: 210, specialty: true, focus: true, central: false, lat: 38.6059237, lng: -90.223133, best: "Highest-rated coffee-forward stop; micro-roastery feel.", caveat: "Smaller local shop; check seating before planning a long stay.", map: "https://www.google.com/maps/search/?api=1&query=Coffeestamp%202511%20South%20Jefferson%20Avenue%20St.%20Louis" },
+        { rank: 3, score: 91.1, name: "Fiddlehead Fern Cafe", area: "Shaw / Botanical Garden", address: "4066 Russell Boulevard, St. Louis", rating: 4.6, reviews: 445, specialty: true, focus: true, central: false, lat: 38.6142616, lng: -90.2507161, best: "Botanical syrups and specialty espresso near the Garden.", caveat: "Published ratings differ by source; this uses the review-count-backed figure.", map: "https://www.google.com/maps/search/?api=1&query=Fiddlehead%20Fern%20Cafe%204066%20Russell%20Boulevard%20St.%20Louis" },
+        { rank: 4, score: 90.7, name: "Blueprint Coffee", area: "Delmar Loop", address: "6225 Delmar Boulevard, St. Louis", rating: 4.5, reviews: 641, specialty: true, focus: true, central: false, lat: 38.6556738, lng: -90.3006179, best: "Specialty roaster pick with a lighter-roast focus.", caveat: "Loop traffic and parking may be less convenient from some city neighborhoods.", map: "https://www.google.com/maps/search/?api=1&query=Blueprint%20Coffee%206225%20Delmar%20Boulevard%20St.%20Louis" },
+        { rank: 5, score: 89.3, name: "The Mud House", area: "Cherokee Street", address: "2101 Cherokee Street, St. Louis", rating: 4.6, reviews: 1432, specialty: false, focus: false, central: false, lat: 38.5930287, lng: -90.222187, best: "Most review-backed option; good cafe/food setup.", caveat: "Popular spot; noise and table availability may vary.", map: "https://www.google.com/maps/search/?api=1&query=The%20Mud%20House%202101%20Cherokee%20Street%20St.%20Louis" },
+        { rank: 6, score: 88.3, name: "Comet Coffee", area: "Forest Park Southeast / Oakland", address: "5708 Oakland Avenue, St. Louis", rating: 4.7, reviews: 597, specialty: false, focus: false, central: false, lat: 38.6302579, lng: -90.2818891, best: "High-rated coffee and pastries near Forest Park.", caveat: "Seating can tighten up during peak pastry and coffee times.", map: "https://www.google.com/maps/search/?api=1&query=Comet%20Coffee%205708%20Oakland%20Avenue%20St.%20Louis" },
+        { rank: 7, score: 87.7, name: "Kitchen House Coffee", area: "Tower Grove East / Benton Park West", address: "3149 Shenandoah Avenue, St. Louis", rating: 4.8, reviews: 284, specialty: false, focus: true, central: false, lat: 38.6091633, lng: -90.2335941, best: "High rating with neighborhood-cafe energy.", caveat: "Likely better for focused blocks than lots of calls.", map: "https://www.google.com/maps/search/?api=1&query=Kitchen%20House%20Coffee%203149%20Shenandoah%20Avenue%20St.%20Louis" },
+        { rank: 8, score: 87.6, name: "Rise Coffee", area: "The Grove", address: "4176 Manchester Avenue, St. Louis", rating: 4.6, reviews: 782, specialty: false, focus: true, central: false, lat: 38.6273241, lng: -90.2531914, best: "Work-friendly neighborhood cafe with strong review volume.", caveat: "Can fill up in The Grove; better outside peak brunch periods.", map: "https://www.google.com/maps/search/?api=1&query=Rise%20Coffee%204176%20Manchester%20Avenue%20St.%20Louis" },
+        { rank: 9, score: 87.4, name: "MoKaBe's Coffeehouse", area: "Tower Grove South", address: "3606 Arsenal Street, St. Louis", rating: 4.5, reviews: 1197, specialty: false, focus: false, central: false, lat: 38.6026902, lng: -90.2426843, best: "Proven long-running cafe with major review volume.", caveat: "Cafe atmosphere may be active; not the quietest option.", map: "https://www.google.com/maps/search/?api=1&query=MoKaBe%27s%20Coffeehouse%203606%20Arsenal%20Street%20St.%20Louis" },
+        { rank: 10, score: 87.4, name: "Kaldi's Coffee - DeMun", area: "DeMun / Clayton edge", address: "700 De Mun Avenue, St. Louis", rating: 4.6, reviews: 710, specialty: false, focus: true, central: false, lat: 38.6386399, lng: -90.3075575, best: "Reliable local chain option with solid seating odds.", caveat: "Technically near the city edge; verify travel time from your exact spot.", map: "https://www.google.com/maps/search/?api=1&query=Kaldi%27s%20Coffee%20700%20De%20Mun%20Avenue%20St.%20Louis" },
+        { rank: 11, score: 86.9, name: "Shameless Grounds", area: "Benton Park", address: "1901 Withnell Avenue, St. Louis", rating: 4.8, reviews: 215, specialty: false, focus: false, central: false, lat: 38.5953105, lng: -90.2181964, best: "Laptop-friendly cafe with very high public rating.", caveat: "Sex-positive branding and decor may not fit every work context.", map: "https://www.google.com/maps/search/?api=1&query=Shameless%20Grounds%201901%20Withnell%20Avenue%20St.%20Louis" },
+        { rank: 12, score: 86.2, name: "Kaldi's Coffee on Skinker", area: "Skinker-DeBaliviere", address: "270 Skinker Boulevard, St. Louis", rating: 4.5, reviews: 790, specialty: false, focus: true, central: false, lat: 38.6495854, lng: -90.3004236, best: "Reliable work session near WashU and Forest Park.", caveat: "Student traffic can make it busy.", map: "https://www.google.com/maps/search/?api=1&query=Kaldi%27s%20Coffee%20on%20Skinker%20270%20Skinker%20Boulevard%20St.%20Louis" },
+        { rank: 13, score: 86, name: "Hartford Coffee Company", area: "Tower Grove South", address: "3974 Hartford Street, St. Louis", rating: 4.5, reviews: 714, specialty: false, focus: true, central: false, lat: 38.6025787, lng: -90.2524165, best: "Neighborhood workhorse for longer laptop sessions.", caveat: "Choose a non-peak window if you need a quieter table.", map: "https://www.google.com/maps/search/?api=1&query=Hartford%20Coffee%20Company%203974%20Hartford%20Street%20St.%20Louis" },
+        { rank: 14, score: 85.1, name: "Northwest Coffee Roasting", area: "Central West End / Cortex", address: "4251 Laclede Avenue, St. Louis", rating: 4.5, reviews: 516, specialty: false, focus: true, central: true, lat: 38.6384394, lng: -90.2508176, best: "CWE/Cortex-area work stop with patio-friendly reputation.", caveat: "Weather and seating matter if you prefer outdoor work.", map: "https://www.google.com/maps/search/?api=1&query=Northwest%20Coffee%20Roasting%204251%20Laclede%20Avenue%20St.%20Louis" },
+        { rank: 15, score: 83.7, name: "Catalyst Coffee Bar", area: "Downtown West", address: "1223 Pine Street, St. Louis", rating: 4.6, reviews: 189, specialty: false, focus: true, central: true, lat: 38.6291331, lng: -90.1981728, best: "Central city work stop with a strong rating.", caveat: "Lower review count than the top picks.", map: "https://www.google.com/maps/search/?api=1&query=Catalyst%20Coffee%20Bar%201223%20Pine%20Street%20St.%20Louis" },
+        { rank: 16, score: null, name: "Kaldi's Coffee - Euclid", area: "Central West End", address: "52 N. Euclid, St. Louis, MO 63108", rating: null, reviews: null, specialty: false, focus: true, central: true, lat: 38.641225, lng: -90.2618969, best: "Reliable CWE fallback with directly confirmed free Wi-Fi.", caveat: "Rating was not included in the ranked source; included as a practical honorable mention.", map: "https://www.google.com/maps/search/?api=1&query=Kaldi%27s%20Coffee%2052%20N%20Euclid%20St.%20Louis" },
+      ];
+
+      const cards = document.querySelector("#cards");
+      const search = document.querySelector("#search");
+      const resultCount = document.querySelector("#resultCount");
+      const empty = document.querySelector("#empty");
+      const mapInfo = document.querySelector("#mapInfo");
+      const mapEl = document.querySelector("#map");
+      const useLocation = document.querySelector("#useLocation");
+      const useAddress = document.querySelector("#useAddress");
+      const addressInput = document.querySelector("#addressInput");
+      const locationStatus = document.querySelector("#locationStatus");
+      const segments = [...document.querySelectorAll(".segment")];
+      let activeFilter = "all";
+      let userLocation = null;
+
+      function iconPath(type) {
+        if (type === "map") return '<svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M9 18 3 21V6l6-3 6 3 6-3v15l-6 3-6-3Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M9 3v15M15 6v15" stroke="currentColor" stroke-width="2"/></svg>';
+        return '<svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M8 8h10v10H8z" stroke="currentColor" stroke-width="2"/><path d="M6 16H5a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v1" stroke="currentColor" stroke-width="2"/></svg>';
+      }
+
+      function milesBetween(a, b) {
+        const radius = 3958.8;
+        const toRad = (value) => (value * Math.PI) / 180;
+        const dLat = toRad(b.lat - a.lat);
+        const dLng = toRad(b.lng - a.lng);
+        const lat1 = toRad(a.lat);
+        const lat2 = toRad(b.lat);
+        const h =
+          Math.sin(dLat / 2) ** 2 +
+          Math.cos(lat1) * Math.cos(lat2) * Math.sin(dLng / 2) ** 2;
+        return radius * 2 * Math.atan2(Math.sqrt(h), Math.sqrt(1 - h));
+      }
+
+      function withDistance(shop) {
+        if (!userLocation) return shop;
+        const distance = milesBetween(userLocation, shop);
+        return {
+          ...shop,
+          distance,
+          nearScore: (shop.score || 78) - Math.min(distance * 1.4, 20),
+        };
+      }
+
+      function setNearbyFilter() {
+        activeFilter = "nearby";
+        segments.forEach((segment) => {
+          segment.setAttribute("aria-pressed", String(segment.dataset.filter === "nearby"));
+        });
+      }
+
+      function visibleShops() {
+        const term = search.value.trim().toLowerCase();
+        const filtered = shops.map(withDistance).filter((shop) => {
+          const matchesTerm = !term || `${shop.name} ${shop.area} ${shop.address}`.toLowerCase().includes(term);
+          const matchesFilter =
+            activeFilter === "all" ||
+            activeFilter === "nearby" ||
+            (activeFilter === "specialty" && shop.specialty) ||
+            (activeFilter === "quiet" && shop.focus) ||
+            (activeFilter === "central" && shop.central);
+          return matchesTerm && matchesFilter;
+        });
+        if (activeFilter === "nearby" && userLocation) {
+          return filtered.sort((a, b) => b.nearScore - a.nearScore);
+        }
+        return filtered.sort((a, b) => a.rank - b.rank);
+      }
+
+      function render() {
+        const visible = visibleShops();
+        cards.innerHTML = visible.map((shop) => `
+          <article class="card">
+            <div class="card-top">
+              <span class="rank">#${shop.rank}</span>
+              <span class="score">${shop.score ? shop.score.toFixed(1) : "Wi-Fi"}</span>
+            </div>
+            <h2 class="shop-name">${shop.name}</h2>
+            <p class="area">${shop.area}<br />${shop.address}</p>
+            <div class="metrics" aria-label="${shop.name} metrics">
+              <div class="metric"><span>Rating</span><strong>${shop.rating ? shop.rating.toFixed(1) : "N/A"}</strong></div>
+              <div class="metric"><span>Reviews</span><strong>${shop.reviews ? shop.reviews.toLocaleString() : "N/A"}</strong></div>
+              <div class="metric"><span>Fit</span><strong>${shop.specialty ? "Coffee" : shop.focus ? "Work" : "Cafe"}</strong></div>
+              ${userLocation ? `<div class="metric"><span>Distance</span><strong>${shop.distance.toFixed(1)} mi</strong></div>` : ""}
+            </div>
+            <p class="note">${shop.best}</p>
+            <p class="caveat">${shop.caveat}</p>
+            <div class="card-actions">
+              <a class="map-link" href="${shop.map}" target="_blank" rel="noopener">${iconPath("map")} Map</a>
+              <button class="copy-button" type="button" data-address="${shop.address}">${iconPath("copy")} Copy</button>
+            </div>
+          </article>
+        `).join("");
+        resultCount.textContent = `${activeFilter === "nearby" && userLocation ? "Best near you: " : "Showing "}${visible.length} ${visible.length === 1 ? "spot" : "spots"}`;
+        empty.style.display = visible.length ? "none" : "block";
+        renderMap(visible);
+      }
+
+      function mapInfoHtml(shop) {
+        return `
+          <small>#${shop.rank} ${shop.specialty ? "Specialty pick" : "Work spot"}</small>
+          <h2>${shop.name}</h2>
+          <p>${shop.area}<br />${shop.address}${shop.distance ? `<br /><strong>${shop.distance.toFixed(1)} miles away</strong>` : ""}</p>
+          <p>${shop.best}</p>
+          <p>${shop.caveat}</p>
+          <a class="map-link" href="${shop.map}" target="_blank" rel="noopener">${iconPath("map")} Open in Maps</a>
+        `;
+      }
+
+      function renderMap(visible) {
+        if (!visible.length) {
+          mapEl.innerHTML = "";
+          mapInfo.innerHTML = "<small>No matches</small><h2>Try another filter</h2><p>The map will update when shops match your search.</p>";
+          return;
+        }
+        const latMin = 38.584;
+        const latMax = 38.66;
+        const lngMin = -90.312;
+        const lngMax = -90.194;
+        const labels = [
+          { name: "Delmar Loop", left: 10, top: 8 },
+          { name: "CWE", left: 41, top: 26 },
+          { name: "Downtown", left: 79, top: 32 },
+          { name: "The Grove", left: 43, top: 49 },
+          { name: "Tower Grove", left: 46, top: 72 },
+          { name: "South City", left: 56, top: 88 },
+        ];
+        const positionButton = userLocation ? (() => {
+          const userLeft = Math.max(2, Math.min(98, ((userLocation.lng - lngMin) / (lngMax - lngMin)) * 100));
+          const userTop = Math.max(2, Math.min(98, ((latMax - userLocation.lat) / (latMax - latMin)) * 100));
+          return `<span class="map-marker" style="left:${userLeft.toFixed(2)}%; top:${userTop.toFixed(2)}%;" aria-label="Your location"><span class="user-pin">You</span></span>`;
+        })() : "";
+        const markerHtml = visible.map((shop) => {
+          const left = ((shop.lng - lngMin) / (lngMax - lngMin)) * 100;
+          const top = ((latMax - shop.lat) / (latMax - latMin)) * 100;
+          return `<button class="map-marker" type="button" data-rank="${shop.rank}" style="left:${left.toFixed(2)}%; top:${top.toFixed(2)}%;" aria-label="Select ${shop.name}">
+            <span class="pin ${shop.specialty ? "specialty" : ""}">${shop.rank}</span>
+          </button>`;
+        }).join("");
+        mapEl.innerHTML = `${labels.map((label) => `<span class="map-label" style="left:${label.left}%; top:${label.top}%;">${label.name}</span>`).join("")}${positionButton}${markerHtml}`;
+        mapInfo.innerHTML = mapInfoHtml(visible[0]);
+      }
+
+      function setUserLocation(location, label) {
+        userLocation = location;
+        setNearbyFilter();
+        locationStatus.textContent = `${label}. Ranking now balances rating quality with distance from that point.`;
+        render();
+      }
+
+      async function geocodeAddress() {
+        const query = addressInput.value.trim();
+        if (!query) {
+          locationStatus.textContent = "Enter an address, hotel, or neighborhood first.";
+          return;
+        }
+        locationStatus.textContent = "Looking up that location...";
+        try {
+          const url = `https://nominatim.openstreetmap.org/search?format=json&limit=1&q=${encodeURIComponent(`${query}, St. Louis, MO`)}`;
+          const response = await fetch(url, { headers: { "Accept": "application/json" } });
+          const data = await response.json();
+          if (!data.length) {
+            locationStatus.textContent = "I could not find that St. Louis location. Try a street address or neighborhood.";
+            return;
+          }
+          setUserLocation(
+            { lat: Number(data[0].lat), lng: Number(data[0].lon) },
+            `Using ${data[0].display_name.split(",").slice(0, 3).join(",")}`
+          );
+        } catch {
+          locationStatus.textContent = "Address lookup failed. Check your connection and try again.";
+        }
+      }
+
+      search.addEventListener("input", render);
+      segments.forEach((button) => {
+        button.addEventListener("click", () => {
+          if (button.dataset.filter === "nearby" && !userLocation) {
+            locationStatus.textContent = "Use GPS or enter an address first, then I can rank shops near you.";
+          }
+          activeFilter = button.dataset.filter;
+          segments.forEach((segment) => segment.setAttribute("aria-pressed", String(segment === button)));
+          render();
+        });
+      });
+
+      useLocation.addEventListener("click", () => {
+        if (!navigator.geolocation) {
+          locationStatus.textContent = "This browser does not support GPS location. Enter an address instead.";
+          return;
+        }
+        locationStatus.textContent = "Requesting your location...";
+        navigator.geolocation.getCurrentPosition(
+          (position) => {
+            setUserLocation(
+              { lat: position.coords.latitude, lng: position.coords.longitude },
+              "Using your current location"
+            );
+          },
+          () => {
+            locationStatus.textContent =
+              "GPS was blocked or unavailable. On a phone, local-network HTTP pages often cannot use GPS; enter an address instead or host this page over HTTPS.";
+          },
+          { enableHighAccuracy: true, timeout: 10000, maximumAge: 300000 }
+        );
+      });
+
+      useAddress.addEventListener("click", geocodeAddress);
+      addressInput.addEventListener("keydown", (event) => {
+        if (event.key === "Enter") geocodeAddress();
+      });
+
+      cards.addEventListener("click", async (event) => {
+        const button = event.target.closest(".copy-button");
+        if (!button) return;
+        await navigator.clipboard.writeText(button.dataset.address);
+        const original = button.innerHTML;
+        button.textContent = "Copied";
+        setTimeout(() => {
+          button.innerHTML = original;
+        }, 1200);
+      });
+
+      mapEl.addEventListener("click", (event) => {
+        const button = event.target.closest(".map-marker");
+        if (!button) return;
+        const shop = shops.map(withDistance).find((item) => item.rank === Number(button.dataset.rank));
+        if (shop) mapInfo.innerHTML = mapInfoHtml(shop);
+      });
+
+      render();
+    </script>
+  </body>
+</html>
