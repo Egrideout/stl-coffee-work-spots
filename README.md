@@ -8,6 +8,6 @@ Features:
 - Self-contained plotted city map with numbered pins.
 - Optional location-aware sorting using browser GPS.
 - Address/neighborhood fallback for nearby ranking.
-- Links to Google Maps and the source spreadsheet.
+- Links to Google Maps.
 
 The site is built as plain HTML/CSS/JavaScript and can be served by GitHub Pages.
